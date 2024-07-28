@@ -17,8 +17,8 @@ def Tele(ccx):
 	with open('fileb3.txt', 'r') as file:
 		first_line = file.readline()
 	while True:
-		lines='''nilos2009%7C1722700886%7Cewdk5oED9rByePujcQsSoZ1q0uCkPq9yqBs7t7C00x8%7Cc9f56a8da9229bebdbe934e820a823c3cb02339b02b01981ca02cdce56f210ea
-zohsad4%7C1722703406%7CcyKAA9IuEElfTUtgVetjIp1AhGQZhbiL72alKdEhkxs%7Ca94e76a1d85e87bc836e5cddc1158bd809ad41d0e558649aa1624294e2538580
+		lines='''forme25%7C1723379730%7CE2czE6V0QYpniplI3NqMJawt71DGMjxHcp9UH93joHx%7Cb41559db63980a8d0b0591a0fe20a7275f3cb736f1876680b376c7c35e9cecca
+zoh881%7C1723379976%7CLPHDKrISSLQsGGmoKV5Q4PKFL6EVEtK8uUySKuiZ6z4%7Ce4b75f8664b2f3ff2316b2455f7c46fade6c4c1e1e9096e1eae1d5bef5c0f76b
 '''
 		lines = lines.strip().split('\n')
 		random_line_number = random.randint(0, len(lines) - 1)
