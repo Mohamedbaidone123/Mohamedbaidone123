@@ -66,7 +66,7 @@ def start(message):
 
 ملاحظة الاسعار بالدولار لو اردت الدفع عن طريق اسياسيل اظرب المبلغ *2
 ━━━━━━━━━━━━━━━━━
-للشراء من هنا @FJ0FF</b>
+للشراء من هنا @U_H_0_7</b>
 	''',reply_markup=keyboard)
 			return
 		keyboard = types.InlineKeyboardMarkup()
