@@ -287,7 +287,7 @@ def menu_callback(call):
 𝘽𝙞𝙣 ➼ {cc[:6]}
 𝙄𝙨𝙨𝙪𝙚𝙧 ➼ {bank}
 𝙏𝙞𝙢𝙚 ➼ {"{:.1f}".format(execution_time)}
-𝗕𝗼𝘁 𝗕𝘆: @FJ0FF</b>'''
+𝗕𝗼𝘁 𝗕𝘆: @U_H_0_7</b>'''
 					if "success" in last or 'Invalid postal' in last or 'avs' in last or 'added' in last or 'Duplicate' in last or 'Approved' in last:
 						live += 1
 						bot.send_message(call.from_user.id, msg)
@@ -385,7 +385,7 @@ def menu_callback(call):
 					bot.edit_message_text(chat_id=call.message.chat.id, 
 					  message_id=call.message.message_id, 
 					  text=f'''𝙋𝙡𝙚𝙖𝙨𝙚 𝙒𝙖𝙞𝙩 𝙒𝙝𝙞𝙡𝙚 𝙔𝙤𝙪𝙧 𝘾𝙖𝙧𝙙𝙨 𝘼𝙧𝙚 𝘽𝙚𝙞𝙣𝙜 𝘾𝙝𝙚𝙘𝙠 𝘼𝙩 𝙏𝙝𝙚 𝙂𝙖𝙩𝙚𝙬𝙖𝙮 {gate}
-𝘽𝙤𝙩 𝘽𝙮 @FJ0FF''', reply_markup=mes)
+𝘽𝙤𝙩 𝘽𝙮 @U_H_0_7''', reply_markup=mes)
 					
 					msg=f'''<b>𝘼𝙥𝙥𝙧𝙤𝙫𝙚𝙙 ✅
 			
@@ -397,7 +397,7 @@ def menu_callback(call):
 𝘽𝙞𝙣 ➼ {cc[:6]}
 𝙄𝙨𝙨𝙪𝙚𝙧 ➼ {bank}
 𝙏𝙞𝙢𝙚 ➼ {"{:.1f}".format(execution_time)}
-𝗕𝗼𝘁 𝗕𝘆: @FJ0FF</b>'''
+𝗕𝗼𝘁 𝗕𝘆: @U_H_0_7</b>'''
 					if "Funds" in last or 'Invalid postal' in last or 'avs' in last or 'added' in last or 'Duplicate' in last or 'Approved' in last:
 						live += 1
 						bot.send_message(call.from_user.id, msg)
@@ -459,7 +459,7 @@ def respond_to_vbv(message):
 
 ملاحظة الاسعار بالدولار لو اردت الدفع عن طريق اسياسيل اظرب المبلغ *2
 ━━━━━━━━━━━━━━━━━
-للشراء من هنا @FJ0FF </b>
+للشراء من هنا @U_H_0_7 </b>
 ''',reply_markup=keyboard)
 		return
 	with open('data.json', 'r') as file:
@@ -487,7 +487,7 @@ def respond_to_vbv(message):
 
 ملاحظة الاسعار بالدولار لو اردت الدفع عن طريق اسياسيل اظرب المبلغ *2
 ━━━━━━━━━━━━━━━━━
-للشراء من هنا @FJ0FF </b>
+للشراء من هنا @U_H_0_7 </b>
 ''',reply_markup=keyboard)
 		return
 	current_time = datetime.now()
@@ -618,7 +618,7 @@ def start(message):
 			with open('data.json', 'r') as json_file:
 				existing_data = json.load(json_file)
 			characters = string.ascii_uppercase + string.digits
-			pas ='TOME-'+''.join(random.choices(characters, k=4))+'-'+''.join(random.choices(characters, k=4))+'-'+''.join(random.choices(characters, k=4))
+			pas ='PAYRO-'+''.join(random.choices(characters, k=4))+'-'+''.join(random.choices(characters, k=4))+'-'+''.join(random.choices(characters, k=4))
 			current_time = datetime.now()
 			ig = current_time + timedelta(hours=h)
 			plan='𝗩𝗜𝗣'
@@ -689,7 +689,7 @@ def respond_to_vbv(message):
 
 ملاحظة الاسعار بالدولار لو اردت الدفع عن طريق اسياسيل اظرب المبلغ *2
 ━━━━━━━━━━━━━━━━━
-للشراء من هنا @FJ0FF /b>
+للشراء من هنا @U_H_0_7 /b>
 ''',reply_markup=keyboard)
 		return
 	with open('data.json', 'r') as file:
@@ -717,7 +717,7 @@ def respond_to_vbv(message):
 
 ملاحظة الاسعار بالدولار لو اردت الدفع عن طريق اسياسيل اظرب المبلغ *2
 ━━━━━━━━━━━━━━━━━
-للشراء من هنا @FJ0FF </b>
+للشراء من هنا @U_H_0_7 </b>
 ''',reply_markup=keyboard)
 		return
 	current_time = datetime.now()
@@ -787,7 +787,7 @@ Card: XXXXXXXXXXXXXXXX|MM|YYYY|CVV</b>''',parse_mode="HTML")
 𝘽𝙞𝙣 ➼ {cc[:6]}
 𝙄𝙨𝙨𝙪𝙚𝙧 ➼ {bank}
 𝙏𝙞𝙢𝙚 ➼ {"{:.1f}".format(execution_time)}
-𝗕𝗼𝘁 𝗕𝘆: FJ0FF</b>'''
+𝗕𝗼𝘁 𝗕𝘆: U_H_0_7</b>'''
 	msgd=f'''<b>𝗥𝗲𝗷𝗲𝗰𝘁𝗲𝗱 ❌
 			
 𝘾𝙖𝙧𝙙 ➼ <code>{cc}</code>
@@ -798,7 +798,7 @@ Card: XXXXXXXXXXXXXXXX|MM|YYYY|CVV</b>''',parse_mode="HTML")
 𝘽𝙞𝙣 ➼ {cc[:6]}
 𝙄𝙨𝙨𝙪𝙚𝙧 ➼ {bank}
 𝙏𝙞𝙢𝙚 ➼ {"{:.1f}".format(execution_time)}
-𝗕𝗼𝘁 𝗕𝘆: @FJ0FF</b>'''
+𝗕𝗼𝘁 𝗕𝘆: @U_H_0_7</b>'''
 	if 'Authenticate Attempt Successful' in last or 'Authenticate Successful' in last or 'authenticate_successful' in last:
 		bot.edit_message_text(chat_id=message.chat.id, message_id=ko, text=msg)
 	else:
