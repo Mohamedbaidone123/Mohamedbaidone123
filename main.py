@@ -143,7 +143,7 @@ def main(message):
 
 ملاحظة الاسعار بالدولار لو اردت الدفع عن طريق اسياسيل اظرب المبلغ *2
 ━━━━━━━━━━━━━━━━━
-للشراء من هنا @FJ0FF</b>
+للشراء من هنا @U_H_0_7</b>
 ''',reply_markup=keyboard)
 			return
 		with open('data.json', 'r') as file:
@@ -171,7 +171,7 @@ def main(message):
 
 ملاحظة الاسعار بالدولار لو اردت الدفع عن طريق اسياسيل اظرب المبلغ *2
 ━━━━━━━━━━━━━━━━━
-للشراء من هنا @FJ0FF</b>
+للشراء من هنا @U_H_0_7</b>
 ''',reply_markup=keyboard)
 			return
 		current_time = datetime.now()
@@ -563,7 +563,7 @@ Card: XXXXXXXXXXXXXXXX|MM|YYYY|CVV</b>''',parse_mode="HTML")
 𝘽𝙞𝙣 ➼ {cc[:6]}
 𝙄𝙨𝙨𝙪𝙚𝙧 ➼ {bank}
 𝙏𝙞𝙢𝙚 ➼ {"{:.1f}".format(execution_time)}
-𝗕𝗼𝘁 𝗕𝘆: @FJ0FF</b>'''
+𝗕𝗼𝘁 𝗕𝘆: @U_H_0_7</b>'''
 	msgd=f'''<b>𝘿𝙚𝙘𝙡𝙞𝙣𝙚𝙙 ❌
 			
 𝘾𝙖𝙧𝙙 ➼ <code>{cc}</code>
@@ -574,7 +574,7 @@ Card: XXXXXXXXXXXXXXXX|MM|YYYY|CVV</b>''',parse_mode="HTML")
 𝘽𝙞𝙣 ➼ {cc[:6]}
 𝙄𝙨𝙨𝙪𝙚𝙧 ➼ {bank}
 𝙏𝙞𝙢𝙚 ➼ {"{:.1f}".format(execution_time)}
-𝗕𝗼𝘁 𝗕𝘆: @FJ0FF</b>'''
+𝗕𝗼𝘁 𝗕𝘆: @U_H_0_7</b>'''
 	if "Funds" in last or 'Invalid postal' in last or 'avs' in last or 'added' in last or 'Duplicate' in last or 'Approved' in last:
 		bot.edit_message_text(chat_id=message.chat.id, message_id=ko, text=msg)
 	else:
