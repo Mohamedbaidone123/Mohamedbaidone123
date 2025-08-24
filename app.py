@@ -16,8 +16,8 @@ app = Flask(__name__)
 
 def load_tokens(region):
     try:
-        if region == "IND":
-            with open("token_ind.json", "r") as f:
+        if region == "ME":
+            with open("token_me.json", "r") as f:
                 tokens = json.load(f)
         elif region in {"BR", "US", "SAC", "NA"}:
             with open("token_br.json", "r") as f:
