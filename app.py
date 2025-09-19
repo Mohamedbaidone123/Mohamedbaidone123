@@ -1,154 +1,98 @@
-#credits: @mythic7AMA
-from flask import Flask, request, jsonify
-import json
-import binascii
-from Crypto.Cipher import AES
-from Crypto.Util.Padding import pad
-import aiohttp
-import asyncio
-import urllib3
-urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
-from google.protobuf.json_format import MessageToJson
-import uid_generator_pb2
-import like_count_pb2
+import os
+import base64
+import requests
+from pathlib import Path
 
-app = Flask(__name__)
-
-def load_tokens(region):
-    try:
-        if region == "ME":
-            with open("token_me.json", "r") as f:
-                tokens = json.load(f)
-        elif region in {"BR", "US", "SAC", "NA"}:
-            with open("token_br.json", "r") as f:
-                tokens = json.load(f)
-        else:
-            with open("token_bd.json", "r") as f:
-                tokens = json.load(f)
-        return tokens
-    except:
-        return None
-
-def encrypt_message(plaintext):
-    try:
-        key = b'Yg&tc%DEuh6%Zc^8'
-        iv = b'6oyZDr22E3ychjM%'
-        cipher = AES.new(key, AES.MODE_CBC, iv)
-        padded_message = pad(plaintext, AES.block_size)
-        encrypted_message = cipher.encrypt(padded_message)
-        return binascii.hexlify(encrypted_message).decode('utf-8')
-    except:
-        return None
-
-def create_protobuf(uid):
-    try:
-        message = uid_generator_pb2.uid_generator()
-        message.saturn_ = int(uid)
-        message.garena = 1
-        return message.SerializeToString()
-    except:
-        return None
-
-def enc(uid):
-    protobuf_data = create_protobuf(uid)
-    if protobuf_data is None:
-        return None
-    encrypted_uid = encrypt_message(protobuf_data)
-    return encrypted_uid
-
-async def make_request_async(encrypt, region, token, session):
-    try:
-        if region == "IND":
-            url = "https://client.ind.freefiremobile.com/GetPlayerPersonalShow"
-        elif region in {"BR", "US", "SAC", "NA"}:
-            url = "https://client.us.freefiremobile.com/GetPlayerPersonalShow"
-        else:
-            url = "https://clientbp.ggblueshark.com/GetPlayerPersonalShow"
-
-        edata = bytes.fromhex(encrypt)
-        headers = {
-            'User-Agent': "Dalvik/2.1.0 (Linux; U; Android 9; ASUS_Z01QD Build/PI)",
-            'Connection': "Keep-Alive",
-            'Accept-Encoding': "gzip",
-            'Authorization': f"Bearer {token}",
-            'Content-Type': "application/x-www-form-urlencoded",
-            'Expect': "100-continue",
-            'X-Unity-Version': "2018.4.11f1",
-            'X-GA': "v1 1",
-            'ReleaseVersion': "OB50"
+class GitHubUploader:
+    def __init__(self, token, repo_owner, repo_name):
+        self.token = token
+        self.repo_owner = repo_owner
+        self.repo_name = repo_name
+        self.base_url = f"https://api.github.com/repos/{repo_owner}/{repo_name}/contents"
+        self.headers = {
+            "Authorization": f"token {token}",
+            "Accept": "application/vnd.github.v3+json"
         }
-
-        async with session.post(url, data=edata, headers=headers, ssl=False, timeout=5) as response:
-            if response.status != 200:
-                return None
-            hex_data = await response.read()
-            binary = bytes.fromhex(hex_data.hex())
-            decode = decode_protobuf(binary)
-            return decode
-    except:
-        return None
-
-def decode_protobuf(binary):
-    try:
-        items = like_count_pb2.Info()
-        items.ParseFromString(binary)
-        return items
-    except:
-        return None
-
-@app.route('/visit', methods=['GET'])
-async def visit():
-    target_uid = request.args.get("uid")
-    region = request.args.get("region", "").upper()
-    if not target_uid or not region:
-        return jsonify({"error": "Target UID and region are required"}), 400
-
-    try:
-        tokens = load_tokens(region)
-        if tokens is None:
-            raise Exception("Failed to load tokens.")
-        
-        encrypted_target_uid = enc(target_uid)
-        if encrypted_target_uid is None:
-            raise Exception("Encryption of target UID failed.")
-        
-        total_visits = len(tokens)
-        success_count = 0
-        failed_count = 0
-        player_name = None
-        player_uid = None
-
-        async with aiohttp.ClientSession() as session:
-            tasks = [
-                make_request_async(encrypted_target_uid, region, token['token'], session)
-                for token in tokens
-            ]
-            results = await asyncio.gather(*tasks)
-
-        for info in results:
-            if info is not None:
-                if player_name is None and player_uid is None:
-                    jsone = MessageToJson(info)
-                    data_info = json.loads(jsone)
-                    player_name = str(data_info.get('AccountInfo', {}).get('PlayerNickname', ''))
-                    player_uid = int(data_info.get('AccountInfo', {}).get('UID', 0))
-                success_count += 1
+    
+    def upload_file(self, file_path, repo_path=""):
+        """
+        Upload a single file to GitHub repository
+        """
+        try:
+            with open(file_path, "rb") as file:
+                content = file.read()
+            
+            content_b64 = base64.b64encode(content).decode("utf-8")
+            
+            github_path = f"{repo_path}/{os.path.basename(file_path)}" if repo_path else os.path.basename(file_path)
+            
+            data = {
+                "message": f"Upload {os.path.basename(file_path)}",
+                "content": content_b64
+            }
+            
+            response = requests.put(
+                f"{self.base_url}/{github_path}",
+                headers=self.headers,
+                json=data
+            )
+            
+            if response.status_code in [200, 201]:
+                print(f"✅ Successfully uploaded {file_path} to {github_path}")
+                return True
             else:
-                failed_count += 1
+                print(f"❌ Failed to upload {file_path}: {response.json().get('message', 'Unknown error')}")
+                return False
+                
+        except Exception as e:
+            print(f"⚠️ Error uploading {file_path}: {str(e)}")
+            return False
+    
+    def upload_directory(self, directory_path, repo_path=""):
+        """
+        Upload a directory and all its contents to GitHub repository
+        """
+        success_count = 0
+        total_count = 0
+        
+        for root, dirs, files in os.walk(directory_path):
+            for file in files:
+                total_count += 1
+                file_path = os.path.join(root, file)
+                
+                rel_path = os.path.relpath(root, directory_path)
+                target_path = repo_path if rel_path == "." else (os.path.join(repo_path, rel_path) if repo_path else rel_path)
+                
+                if self.upload_file(file_path, target_path):
+                    success_count += 1
+        
+        print(f"📂 Uploaded {success_count} out of {total_count} files")
+        return success_count == total_count
 
-        summary = {
-            "TotalVisits": total_visits,
-            "SuccessfulVisits": success_count,
-            "FailedVisits": failed_count,
-            "PlayerNickname": player_name,
-            "UID": player_uid
-        }
-        return jsonify(summary)
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
+def main():
+    # Configuration - Replace these placeholders
+    GITHUB_TOKEN = "{TOKEN}"       # 🔑 Replace with your GitHub token
+    REPO_OWNER = "{OWNER}"         # 👤 Replace with your GitHub username/org
+    REPO_NAME = "{REPO_NAME}"      # 📦 Replace with your repository name
+    
+    uploader = GitHubUploader(GITHUB_TOKEN, REPO_OWNER, REPO_NAME)
+    
+    print("GitHub File Uploader")
+    print("1️⃣ Upload a single file")
+    print("2️⃣ Upload a directory")
+    
+    choice = input("Enter your choice (1 or 2): ")
+    
+    if choice == "1":
+        file_path = input("Enter the path to the file: ")
+        repo_path = input("Enter the target directory in repository (leave empty for root): ")
+        uploader.upload_file(file_path, repo_path)
+    elif choice == "2":
+        dir_path = input("Enter the path to the directory: ")
+        repo_path = input("Enter the target directory in repository (leave empty for root): ")
+        uploader.upload_directory(dir_path, repo_path)
+    else:
+        print("❌ Invalid choice")
 
-if __name__ == '__main__':
-    import asyncio
-    loop = asyncio.new_event_loop()
-    asyncio.set_event_loop(loop)
-    app.run(debug=True, use_reloader=False)
+if __name__ == "__main__":
+    main()
